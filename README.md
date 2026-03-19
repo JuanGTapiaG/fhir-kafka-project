@@ -198,11 +198,7 @@ GET /api/patients/test
 curl http://localhost:8081/api/patients/test
 ```
 
-### Respuesta:
-
-```text
-✅ Proyecto Kafka funcionando
-```
+Respuesta: ✅ Proyecto Kafka funcionando
 
 ### 2. Crear Paciente
 
