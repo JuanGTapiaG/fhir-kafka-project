@@ -80,24 +80,30 @@ Este proyecto implementa un sistema de notificaciones en tiempo real donde cada 
 
 ### Instalación en Debian/Ubuntu
 
+### Actualizar repositorios
 ```bash
-# Actualizar repositorios
 sudo apt update
+```
 
-# Instalar Java 21
+### Instalar Java 21
+```bash
 sudo apt install openjdk-21-jdk -y
+```
 
-# Instalar Maven
+### Instalar Maven
+```bash
 sudo apt install maven -y
+```
 
-# Verificar instalaciones
+### Verificar instalaciones
+```bash
 java -version
 mvn -version
 ```
 
 ## 🚀 Instalación de Kafka 4.1.1 (KRaft)
 
-# Paso 1: Descargar Kafka
+### Paso 1: Descargar Kafka
 
 ```bash
 cd /tmp
@@ -106,14 +112,14 @@ tar -xzf kafka_2.13-4.1.1.tgz
 sudo mv kafka_2.13-4.1.1 /opt/kafka
 ```
 
-# Paso 2: Crear directorios para datos
+### Paso 2: Crear directorios para datos
 
 ```bash
 sudo mkdir -p /tmp/kafka-logs
 sudo chmod 777 /tmp/kafka-logs
 ```
 
-# Paso 3: Iniciar Kafka con KRaft (sin Zookeeper)
+### Paso 3: Iniciar Kafka con KRaft (sin Zookeeper)
 
 ```bash
 cd /opt/kafka
@@ -121,14 +127,14 @@ cd /opt/kafka
 Generar ID único para el clúster
 KAFKA_CLUSTER_ID=$(bin/kafka-storage.sh random-uuid)
 
-# Formatear storage
+### Formatear storage
 bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/server.properties --standalone
 
-# Iniciar Kafka
+### Iniciar Kafka
 bin/kafka-server-start.sh -daemon config/server.properties
 ```
 
-# Paso 4: Crear el topic para el proyecto
+### Paso 4: Crear el topic para el proyecto
 
 ```bash
 bin/kafka-topics.sh --create \
@@ -138,34 +144,35 @@ bin/kafka-topics.sh --create \
   --replication-factor 1
 ```
 
-# Paso 5: Verificar instalación
+### Paso 5: Verificar instalación
 
 ```bash
 bin/kafka-topics.sh --list --bootstrap-server localhost:9092
-# Debería mostrar: patient-topic
+```
+Debería mostrar: patient-topic
 
 ## 📦 Instalación del Proyecto
 
-# Paso 1: Clonar repositorio
+### Paso 1: Clonar repositorio
 
 ```bash
 git clone https://github.com/JuanGTapiaG/fhir-kafka-project.git
 cd fhir-kafka-project
 ```
 
-# Paso 2: Compilar
+### Paso 2: Compilar
 
 ```bash
 mvn clean compile
 ```
 
-# Paso 3: Ejecutar aplicación
+### Paso 3: Ejecutar aplicación
 
 ```bash
 mvn spring-boot:run
 ```
 
-# Paso 4: Verificar que funciona
+### Paso 4: Verificar que funciona
 
 ```bash
 curl http://localhost:8081/api/patients/test
@@ -174,32 +181,32 @@ curl http://localhost:8081/api/patients/test
 
 ## 📡 API Endpoints
 
-# 1. Verificar Estado
+### 1. Verificar Estado
 
 ```bash
 GET /api/patients/test
 ```
 
-# Ejemplo:
+### Ejemplo:
 
 ```bash
 curl http://localhost:8081/api/patients/test
 ```
 
-# Respuesta:
+### Respuesta:
 
 ```text
 ✅ Proyecto Kafka funcionando
 ```
 
-# 2. Crear Paciente
+### 2. Crear Paciente
 
 ```bash
 POST /api/patients
 Content-Type: application/json
 ```
 
-# Ejemplo con Omar Gómez:
+### Ejemplo con Omar Gómez:
 
 ```bash
 curl -X POST http://localhost:8081/api/patients \
@@ -211,7 +218,7 @@ curl -X POST http://localhost:8081/api/patients \
   }'
 ```
 
-# Respuesta:
+### Respuesta:
 
 ```json
 {
@@ -221,9 +228,10 @@ curl -X POST http://localhost:8081/api/patients \
 }
 ```
 
-# 3. Ejemplos Adicionales
+### 3. Ejemplos Adicionales
+
+Ana Martínez
 ```bash
-# Ana Martínez
 curl -X POST http://localhost:8081/api/patients \
   -H "Content-Type: application/json" \
   -d '{
@@ -231,8 +239,10 @@ curl -X POST http://localhost:8081/api/patients \
     "lastName": "Martínez",
     "identifier": "52436789"
   }'
+```
 
-# Carlos Rodríguez
+Carlos Rodríguez
+```bash
 curl -X POST http://localhost:8081/api/patients \
   -H "Content-Type: application/json" \
   -d '{
@@ -244,24 +254,27 @@ curl -X POST http://localhost:8081/api/patients \
 
 ## 👀 Monitoreo
 
-# Kafka (línea de comandos)
+### Kafka (línea de comandos)
 
+
+Ver topics
 ```bash
-# Ver topics
 cd /opt/kafka
 bin/kafka-topics.sh --list --bootstrap-server localhost:9092
-
-# Ver detalles del topic
+```
+Ver detalles del topic
+```bash
 bin/kafka-topics.sh --describe --topic patient-topic --bootstrap-server localhost:9092
-
-# Consumir mensajes (ver en tiempo real)
+```
+Consumir mensajes (ver en tiempo real)
+```bash
 bin/kafka-console-consumer.sh \
   --topic patient-topic \
   --bootstrap-server localhost:9092 \
   --from-beginning
 ```
 
-# H2 Database Console
+### H2 Database Console
 
 URL: http://localhost:8081/h2-console
 
@@ -271,13 +284,14 @@ Usuario: sa
 
 Contraseña: (vacío)
 
-# Consultas útiles:
+### Consultas útiles:
 
+Ver todos los pacientes
 ```sql
--- Ver todos los pacientes
 SELECT * FROM PATIENT;
-
--- Ver paciente por cédula
+```
+Ver paciente por cédula
+```sql
 SELECT * FROM PATIENT WHERE IDENTIFIER = '1007588983';
 ```
 
@@ -310,7 +324,7 @@ fhir-kafka-project/
         └── resources/
             └── application.yml
 ```
-# Descripción de Componentes
+### Descripción de Componentes
 Componente	Archivo	Función
 Main	FhirKafkaApplication.java	Punto de entrada
 Config Kafka	KafkaConfig.java	Configura topics
@@ -322,13 +336,15 @@ Consumer	KafkaConsumer.java	Consume de Kafka
 
 ## 🚀 Scripts Útiles
 
-# Iniciar Kafka rápidamente
+### Iniciar Kafka rápidamente
 
 ```bash
 nano ~/iniciar-kafka.sh
 ```
-```bash
+
 #!/bin/bash
+
+```bash
 cd /opt/kafka
 KAFKA_CLUSTER_ID=$(bin/kafka-storage.sh random-uuid 2>/dev/null)
 bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/server.properties --standalone > /dev/null 2>&1
@@ -340,13 +356,16 @@ bin/kafka-topics.sh --list --bootstrap-server localhost:9092
 ```bash
 chmod +x ~/iniciar-kafka.sh
 ~/iniciar-kafka.sh
-# Script de prueba completo
 ```
+
+### Script de prueba completo
+
 ```bash
 nano ~/test-kafka.sh
 ```
-```bash
+
 #!/bin/bash
+```bash
 echo "=================================="
 echo "🧪 TEST PROYECTO KAFKA"
 echo "=================================="
@@ -372,33 +391,40 @@ echo -e "\n✅ Prueba completada"
 chmod +x ~/test-kafka.sh
 ~/test-kafka.sh
 ```
-##❗ Solución de Problemas
-# Error: Kafka no conecta
-```bash
-# Verificar que Kafka está corriendo
-ps aux | grep kafka
+## ❗Solución de Problemas
 
-# Si no está, iniciarlo
+### Error: Kafka no conecta
+
+### Verificar que Kafka está corriendo
+```bash
+ps aux | grep kafka
+```
+### Si no está, iniciarlo
+```bash
 cd /opt/kafka
 bin/kafka-server-start.sh -daemon config/server.properties
-
-# Verificar puerto
+```
+### Verificar puerto
+```bash
 netstat -tlnp | grep 9092
 ```
 
-# Error: Puerto 8081 ocupado
+### Error: Puerto 8081 ocupado
+
+### Ver proceso
 ```bash
-# Ver proceso
 sudo lsof -i :8081
-
-# Matar proceso
+```
+### Matar proceso
+```bash
 sudo kill -9 <PID>
-
-# O matar todos los procesos Java
+```
+### O matar todos los procesos Java
+```bash
 pkill -f java
 ```
 
-# Error: Tabla PATIENT no encontrada en H2
+### Error: Tabla PATIENT no encontrada en H2
 ```sql
 CREATE TABLE IF NOT EXISTS PATIENT (
     ID VARCHAR(100) PRIMARY KEY,
@@ -409,7 +435,7 @@ CREATE TABLE IF NOT EXISTS PATIENT (
 );
 ```
 
-# Error: JDBC URL incorrecta en H2
+### Error: JDBC URL incorrecta en H2
 Usar:
 
 ```text
@@ -424,14 +450,15 @@ jdbc:h2:file://data/testdb
 jdbc:h2:~/testdb
 
 ## 📊 Cumplimiento de Requisitos
-#	Requisito	Estado	Verificación
+###	Requisito	Estado	Verificación
 1	Crear paciente FHIR	✅	POST /api/patients
 2	Publicar en Kafka	✅	Logs y kafka-console-consumer
 3	Consumir desde Kafka	✅	Logs del consumidor
 4	Persistencia en H2	✅	SELECT * FROM PATIENT;
+
 ## 👤 Autores
-# Omar Gomez
-# Juan Tapia
+### Omar Gomez
+### Juan Tapia
 
 ## 📄Licencia
 MIT License
