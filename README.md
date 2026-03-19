@@ -202,11 +202,6 @@ Respuesta: ✅ Proyecto Kafka funcionando
 
 ### 2. Crear Paciente
 
-```bash
-POST /api/patients
-Content-Type: application/json
-```
-
 ### Ejemplo con Omar Gómez:
 
 ```bash
