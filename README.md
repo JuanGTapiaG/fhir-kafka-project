@@ -123,14 +123,18 @@ sudo chmod 777 /tmp/kafka-logs
 
 ```bash
 cd /opt/kafka
+```
 
-Generar ID único para el clúster
+### Generar ID único para el clúster
+```bash
 KAFKA_CLUSTER_ID=$(bin/kafka-storage.sh random-uuid)
-
+```
 ### Formatear storage
+```bash
 bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/server.properties --standalone
-
+```
 ### Iniciar Kafka
+```bash
 bin/kafka-server-start.sh -daemon config/server.properties
 ```
 
@@ -176,8 +180,9 @@ mvn spring-boot:run
 
 ```bash
 curl http://localhost:8081/api/patients/test
-# Respuesta: ✅ Proyecto Kafka funcionando
 ```
+
+Respuesta: ✅ Proyecto Kafka funcionando
 
 ## 📡 API Endpoints
 
@@ -342,7 +347,7 @@ Consumer	KafkaConsumer.java	Consume de Kafka
 nano ~/iniciar-kafka.sh
 ```
 
-#!/bin/bash
+### !/bin/bash
 
 ```bash
 cd /opt/kafka
@@ -364,7 +369,7 @@ chmod +x ~/iniciar-kafka.sh
 nano ~/test-kafka.sh
 ```
 
-#!/bin/bash
+### !/bin/bash
 ```bash
 echo "=================================="
 echo "🧪 TEST PROYECTO KAFKA"
@@ -393,7 +398,7 @@ chmod +x ~/test-kafka.sh
 ```
 ## ❗Solución de Problemas
 
-### Error: Kafka no conecta
+## Error: Kafka no conecta
 
 ### Verificar que Kafka está corriendo
 ```bash
@@ -409,7 +414,7 @@ bin/kafka-server-start.sh -daemon config/server.properties
 netstat -tlnp | grep 9092
 ```
 
-### Error: Puerto 8081 ocupado
+## Error: Puerto 8081 ocupado
 
 ### Ver proceso
 ```bash
@@ -424,7 +429,7 @@ sudo kill -9 <PID>
 pkill -f java
 ```
 
-### Error: Tabla PATIENT no encontrada en H2
+## Error: Tabla PATIENT no encontrada en H2
 ```sql
 CREATE TABLE IF NOT EXISTS PATIENT (
     ID VARCHAR(100) PRIMARY KEY,
@@ -435,7 +440,7 @@ CREATE TABLE IF NOT EXISTS PATIENT (
 );
 ```
 
-### Error: JDBC URL incorrecta en H2
+## Error: JDBC URL incorrecta en H2
 Usar:
 
 ```text
